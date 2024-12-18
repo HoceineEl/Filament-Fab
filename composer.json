@@ -1,0 +1,29 @@
+{
+    "name": "hoceineel/filament-fab",
+    "description": "Filament Fab is a package that provides a floating action button for Filament.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "HoceineEl\\Fab\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Hoceine El Idrissi",
+            "email": "contact@hoceine.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "filament/support": "^3.0",
+        "filament/filament": "3.x-dev"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "HoceineEl\\Fab\\FabServiceProvider"
+            ]
+        }
+    }
+}

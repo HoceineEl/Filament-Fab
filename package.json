@@ -1,0 +1,37 @@
+{
+  "name": "filament-fab",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HoceineEl/filament-fab.git"
+  },
+  "keywords": [
+    "filamentphp"
+  ],
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "postcss resources/css/app.css -o resources/dist/filament-fab.css",
+    "dev": "npx tailwindcss -i resources/css/app.css -o dist/css/filament-fab.css --postcss --watch",
+    "dev:js": "node bin/build.js --dev"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.9",
+    "autoprefixer": "^10.4.19",
+    "esbuild": "^0.18.13",
+    "postcss": "^8.4.38",
+    "postcss-import": "^15.1.0",
+    "prettier": "^3.0.0",
+    "prettier-plugin-blade": "^1.6.10",
+    "prettier-plugin-tailwindcss": "^0.4.1",
+    "tailwindcss": "^3.4.4"
+  },
+  "author": "Hoceine El Idrissi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HoceineEl/filament-fab/issues"
+  },
+  "homepage": "https://github.com/HoceineEl/filament-fab#readme"
+}

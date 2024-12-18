@@ -1,0 +1,149 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+/* FAB animations */
+@keyframes fab-scale-in {
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes fab-scale-out {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+}
+
+/* FAB transitions */
+.fab-enter-active {
+    animation: fab-scale-in 0.2s ease-out;
+}
+
+.fab-leave-active {
+    animation: fab-scale-out 0.15s ease-in;
+}
+
+/* Add to your existing FAB styles */
+
+.fab-button {
+    @apply transition-all duration-200 ease-in-out;
+    @apply hover:scale-110 active:scale-95;
+    @apply hover:shadow-lg;
+}
+
+.fab-action-button {
+    @apply transition-all duration-200 ease-in-out;
+    @apply hover:shadow-md active:scale-95;
+    @apply hover:bg-primary-50 dark:hover:bg-gray-700;
+}
+
+/* Tooltip styles */
+.fab-tooltip {
+    @apply absolute left-0 transform -translate-x-full -translate-y-1/2;
+    @apply px-2 py-1 text-xs font-medium text-white;
+    @apply bg-gray-900 dark:bg-gray-700 rounded-lg;
+    @apply opacity-0 transition-opacity duration-200;
+}
+
+.group:hover .fab-tooltip {
+    @apply opacity-100;
+}
+
+/* Add these styles to your theme.css */
+
+@keyframes come-in {
+    0% {
+        transform: translatey(100px);
+        opacity: 0;
+    }
+    30% {
+        transform: translateX(-50px) scale(0.4);
+    }
+    70% {
+        transform: translateX(0px) scale(1.2);
+    }
+    100% {
+        transform: translatey(0px) scale(1);
+        opacity: 1;
+    }
+}
+
+.floating-container {
+    @apply fixed bottom-10 left-1/2 -translate-x-1/2 w-[320px] h-[70px];
+}
+
+.floating-menu {
+    @apply absolute bottom-0 right-1/2 translate-x-1/2 w-[57px] transition-all duration-300;
+    @apply rounded-full bg-gradient-to-b from-primary-500 to-primary-600;
+    @apply shadow-lg shadow-primary-500/30;
+}
+
+.floating-menu.active {
+    @apply w-[320px];
+}
+
+.floating-button {
+    @apply absolute bottom-0 right-1/2 translate-x-1/2 w-[57px] h-[57px];
+    @apply flex items-center justify-center rounded-full z-10 cursor-pointer;
+    @apply bg-gradient-to-b from-primary-500 to-primary-600;
+    @apply shadow-lg shadow-primary-500/30 hover:shadow-primary-500/50;
+    @apply transition-all duration-300;
+}
+
+.floating-button .icon {
+    @apply w-6 h-6 text-white transition-transform duration-300;
+}
+
+.floating-button.active .icon {
+    @apply rotate-45;
+}
+
+.menu-items {
+    @apply absolute bottom-0 right-1/2 translate-x-1/2 w-full h-[57px];
+    @apply bg-gradient-to-b from-primary-500 to-primary-600 rounded-full;
+    @apply flex items-center justify-center gap-6 px-6;
+    @apply opacity-0 invisible transition-all duration-300;
+    @apply transform translate-y-[-120%];
+}
+
+.floating-menu.active .menu-items {
+    @apply opacity-100 visible;
+    @apply flex-row;
+}
+
+.menu-item {
+    @apply w-10 h-10 rounded-full flex items-center justify-center;
+    @apply transition-all duration-300 hover:scale-110;
+}
+
+.menu-item svg {
+    @apply w-5 h-5 text-white opacity-75 transition-opacity duration-300;
+}
+
+.menu-item:hover svg {
+    @apply opacity-100;
+}
+
+@keyframes menuItemFadeIn {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.floating-menu.active .menu-item {
+    animation: menuItemFadeIn 0.3s forwards;
+}
