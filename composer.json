@@ -22,7 +22,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "HoceineEl\\Fab\\FabServiceProvider"
+                "HoceineEl\\Fab\\FilamentFabServiceProvider"
             ]
         }
     }
