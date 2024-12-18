@@ -1,6 +1,6 @@
 <?php
 
-namespace CharrafiMed\GlobalSearchModal;
+namespace HoceineEl\Fab;
 
 use Filament\Panel;
 use Filament\Contracts\Plugin;
