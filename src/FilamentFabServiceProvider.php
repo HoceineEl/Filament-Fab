@@ -25,7 +25,7 @@ class FilamentFabServiceProvider extends PackageServiceProvider
             assets: [
                 Css::make(
                     id: 'filament-fab',
-                    path: __DIR__ . '/../dist/css/filament-fab.css'
+                    path: __DIR__ . '/../resources/dist/css/filament-fab.css'
                 ),
             ],
             package: 'hoceineel/filament-fab'
