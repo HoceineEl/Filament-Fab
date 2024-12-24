@@ -25,11 +25,13 @@ class FilamentFabPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
-        $panel->renderHook(
-            PanelsRenderHook::BODY_END,
-            fn(): string => Blade::render('@livewire(\'floating-action-button\')'),
-            scopes: $this->getRenderHooksScopes()
-        );
+        if (auth()->check()) {
+            $panel->renderHook(
+                PanelsRenderHook::BODY_END,
+                fn(): string => Blade::render('@livewire(\'floating-action-button\')'),
+                scopes: $this->getRenderHooksScopes()
+            );
+        }
     }
 
 
