@@ -95,11 +95,13 @@
 
 /* Tooltip styles */
 .fab-tooltip {
-    @apply absolute left-0 transform -translate-x-full -translate-y-1/2;
-    @apply px-2 py-1 text-xs font-medium;
+    @apply absolute px-2 py-1 text-xs font-medium;
     @apply rounded-lg;
     @apply opacity-0 transition-opacity duration-200;
     @apply shadow-lg;
+    @apply bottom-full mb-2;
+    @apply left-1/2 -translate-x-1/2;
+    @apply whitespace-nowrap;
     background-color: var(--fab-tooltip-bg);
     color: var(--fab-tooltip-text);
 }
