@@ -84,7 +84,7 @@
 /* Button styles */
 .fab-button {
     @apply transition-all duration-200 ease-out;
-    @apply hover:scale-[1.02] active:scale-[0.98];
+    @apply active:scale-[0.98];
     @apply hover:shadow-lg;
 }
 
@@ -95,13 +95,11 @@
 
 /* Tooltip styles */
 .fab-tooltip {
-    @apply absolute px-2 py-1 text-xs font-medium;
+    @apply absolute left-0 transform -translate-x-full -translate-y-1/2;
+    @apply px-2 py-1 text-xs font-medium;
     @apply rounded-lg;
     @apply opacity-0 transition-opacity duration-200;
     @apply shadow-lg;
-    @apply bottom-full mb-2;
-    @apply left-1/2 -translate-x-1/2;
-    @apply whitespace-nowrap;
     background-color: var(--fab-tooltip-bg);
     color: var(--fab-tooltip-text);
 }
@@ -148,7 +146,6 @@
 }
 
 .floating-button:hover {
-    transform: scale(1.02);
     background-color: var(--fab-button-bg-hover);
 }
 
@@ -189,7 +186,7 @@
 
 .menu-item {
     @apply rounded-full flex items-center justify-center;
-    @apply transition-all hover:scale-[1.02];
+    @apply transition-all;
     transition-duration: calc(var(--fab-animation-speed) * 0.66);
     color: var(--fab-menu-text);
 }
