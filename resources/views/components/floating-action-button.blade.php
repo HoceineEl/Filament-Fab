@@ -206,7 +206,9 @@
                 <button class="floating-button group" @click="toggleMenu" :class="{ 'active': open }"
                     :style="{ width: theme.buttonSize, height: theme.buttonSize }">
                     <x-filament::icon icon="heroicon-o-plus" class="icon" />
-                    <span class="fab-tooltip">{{ __('filament-fab::actions.quick_actions') }}</span>
+                    @if ($showTooltip)
+                        <span class="fab-tooltip">{{ __('filament-fab::actions.quick_actions') }}</span>
+                    @endif
                 </button>
 
                 <!-- Menu Items -->
