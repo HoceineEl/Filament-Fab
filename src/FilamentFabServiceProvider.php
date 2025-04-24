@@ -49,8 +49,10 @@ class FilamentFabServiceProvider extends PackageServiceProvider
 
         // Register assets
         FilamentAsset::register([
-            Css::make('filament-fab-styles', __DIR__ . '/../resources/dist/filament-fab.css')->loadedOnRequest(),
-            Js::make('filament-fab-scripts', __DIR__ . '/../dist/js/filament-fab.js')->loadedOnRequest(),
+            Css::make('filament-fab-styles', __DIR__ . '/../resources/dist/filament-fab.css')
+                ->loadedOnRequest(),
+            Js::make('filament-fab-scripts', __DIR__ . '/../dist/js/filament-fab.js')
+                ->loadedOnRequest(),
         ], package: 'hoceineel/filament-fab');
 
         // Register Livewire component
@@ -60,15 +62,5 @@ class FilamentFabServiceProvider extends PackageServiceProvider
         );
     }
 
-    public function packageRegistered(): void
-    {
-        // Register plugin for all panels
-        $this->app->resolving('filament', function () {
-            $panels = $this->app->make('filament')->getPanels();
-
-            foreach ($panels as $panel) {
-                $panel->plugin(FilamentFabPlugin::make());
-            }
-        });
-    }
+    public function packageRegistered(): void {}
 }

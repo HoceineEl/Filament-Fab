@@ -27,19 +27,18 @@ class FilamentFabPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
-        // Don't register in production if disabled in config
-        if (App::environment('production') && !Config::get('filament-fab.enable_in_production', true)) {
-            return;
-        }
+        // // Don't register in production if disabled in config
+        // if (App::environment('production') && !Config::get('filament-fab.enable_in_production', true)) {
+        //     return;
+        // }
 
         // Only register if user is authenticated
-        if (auth()->check()) {
-            $panel->renderHook(
-                PanelsRenderHook::BODY_END,
-                fn(): string => Blade::render('@livewire(\'floating-action-button\')'),
-                scopes: $this->getRenderHooksScopes()
-            );
-        }
+
+        $panel->renderHook(
+            PanelsRenderHook::BODY_END,
+            fn(): string => Blade::render('@livewire(\'floating-action-button\')'),
+            // scopes: $this->getRenderHooksScopes()
+        );
 
         // Register assets
         FilamentAsset::register([
@@ -50,9 +49,9 @@ class FilamentFabPlugin implements Plugin
 
     public function boot(Panel $panel): void
     {
-        // Register manager singleton
-        app()->singleton(FabManager::class, function () {
-            return new FabManager();
-        });
+        // // Register manager singleton
+        // app()->singleton(FabManager::class, function () {
+        //     return new FabManager();
+        // });
     }
 }
