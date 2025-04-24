@@ -9,6 +9,26 @@
     --fab-menu-spacing: 16px;
     --fab-animation-speed: 0.3s;
     --fab-animation-easing: cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Color variables */
+    --fab-button-bg: #3b82f6;
+    --fab-button-bg-hover: #2563eb;
+    --fab-button-bg-active: #1d4ed8;
+    --fab-button-text: #ffffff;
+    --fab-menu-bg: #ffffff;
+    --fab-menu-text: #4b5563;
+    --fab-menu-hover: #f3f4f6;
+    --fab-menu-item-accent: #3b82f6;
+    --fab-tooltip-bg: #111827;
+    --fab-tooltip-text: #ffffff;
+}
+
+.dark {
+    --fab-menu-bg: #1f2937;
+    --fab-menu-text: #e5e7eb;
+    --fab-menu-hover: #374151;
+    --fab-menu-item-accent: #60a5fa;
+    --fab-tooltip-bg: #374151;
 }
 
 /* FAB animations */
@@ -64,23 +84,24 @@
 /* Button styles */
 .fab-button {
     @apply transition-all duration-200 ease-out;
-    @apply hover:scale-110 active:scale-95;
+    @apply hover:scale-[1.02] active:scale-[0.98];
     @apply hover:shadow-lg;
 }
 
 .fab-action-button {
     @apply transition-all duration-200 ease-out;
     @apply hover:shadow-md active:scale-95;
-    @apply hover:bg-primary-50 dark:hover:bg-gray-700;
 }
 
 /* Tooltip styles */
 .fab-tooltip {
     @apply absolute left-0 transform -translate-x-full -translate-y-1/2;
-    @apply px-2 py-1 text-xs font-medium text-white;
-    @apply bg-gray-900 dark:bg-gray-700 rounded-lg;
+    @apply px-2 py-1 text-xs font-medium;
+    @apply rounded-lg;
     @apply opacity-0 transition-opacity duration-200;
     @apply shadow-lg;
+    background-color: var(--fab-tooltip-bg);
+    color: var(--fab-tooltip-text);
 }
 
 .group:hover .fab-tooltip {
@@ -118,18 +139,25 @@
 
 .floating-button {
     @apply absolute bottom-0 right-1/2 translate-x-1/2 flex items-center justify-center rounded-full z-10 cursor-pointer;
-    @apply bg-primary-600 hover:bg-primary-500 active:bg-primary-700;
-    @apply shadow-lg shadow-primary-500/30 hover:shadow-primary-500/50;
+    @apply shadow-lg hover:shadow-xl;
     transition: all var(--fab-animation-speed) var(--fab-animation-easing);
+    background-color: var(--fab-button-bg);
+    color: var(--fab-button-text);
 }
 
 .floating-button:hover {
-    transform: scale(1.05);
+    transform: scale(1.02);
+    background-color: var(--fab-button-bg-hover);
+}
+
+.floating-button:active {
+    background-color: var(--fab-button-bg-active);
 }
 
 .floating-button .icon {
-    @apply w-6 h-6 text-white transition-transform;
+    @apply w-6 h-6 transition-transform;
     transition-duration: var(--fab-animation-speed);
+    color: var(--fab-button-text);
 }
 
 .floating-button.active .icon {
@@ -141,7 +169,7 @@
 }
 
 .menu-items {
-    @apply absolute bottom-0 right-1/2 translate-x-1/2 bg-white dark:bg-gray-800 rounded-full;
+    @apply absolute bottom-0 right-1/2 translate-x-1/2 rounded-full;
     @apply flex items-center justify-center px-6;
     @apply opacity-0 invisible transition-all;
     @apply transform translate-y-[-120%];
@@ -149,6 +177,7 @@
     @apply border border-gray-100 dark:border-gray-700;
     transition-duration: var(--fab-animation-speed);
     transition-timing-function: var(--fab-animation-easing);
+    background-color: var(--fab-menu-bg);
 }
 
 .floating-menu.active .menu-items {
@@ -158,18 +187,23 @@
 
 .menu-item {
     @apply rounded-full flex items-center justify-center;
-    @apply transition-all hover:scale-110 hover:bg-gray-100 dark:hover:bg-gray-700;
-    @apply text-gray-600 dark:text-gray-300;
+    @apply transition-all hover:scale-[1.02];
     transition-duration: calc(var(--fab-animation-speed) * 0.66);
+    color: var(--fab-menu-text);
+}
+
+.menu-item:hover {
+    background-color: var(--fab-menu-hover);
 }
 
 .menu-item svg {
     @apply w-5 h-5 transition-opacity;
     transition-duration: calc(var(--fab-animation-speed) * 0.5);
+    color: var(--fab-menu-text);
 }
 
 .menu-item:hover svg {
-    @apply text-primary-600 dark:text-primary-400;
+    color: var(--fab-menu-item-accent);
 }
 
 @keyframes menuItemFadeIn {

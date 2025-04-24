@@ -13,6 +13,23 @@
             menuSpacing: '{{ $theme['menu_spacing'] }}',
             animationSpeed: '{{ $theme['animation_speed'] }}',
             animationEasing: '{{ $theme['animation_easing'] }}',
+            colors: {
+                buttonBg: '{{ $theme['colors']['button_bg'] }}',
+                buttonBgHover: '{{ $theme['colors']['button_bg_hover'] }}',
+                buttonBgActive: '{{ $theme['colors']['button_bg_active'] }}',
+                buttonText: '{{ $theme['colors']['button_text'] }}',
+                menuBg: '{{ $theme['colors']['menu_bg'] }}',
+                menuBgDark: '{{ $theme['colors']['menu_bg_dark'] }}',
+                menuText: '{{ $theme['colors']['menu_text'] }}',
+                menuTextDark: '{{ $theme['colors']['menu_text_dark'] }}',
+                menuHover: '{{ $theme['colors']['menu_hover'] }}',
+                menuHoverDark: '{{ $theme['colors']['menu_hover_dark'] }}',
+                menuItemAccent: '{{ $theme['colors']['menu_item_accent'] }}',
+                menuItemAccentDark: '{{ $theme['colors']['menu_item_accent_dark'] }}',
+                tooltipBg: '{{ $theme['colors']['tooltip_bg'] }}',
+                tooltipBgDark: '{{ $theme['colors']['tooltip_bg_dark'] }}',
+                tooltipText: '{{ $theme['colors']['tooltip_text'] }}',
+            }
         },
     
         init() {
@@ -46,12 +63,61 @@
             });
     
             // Apply theme CSS variables
+            this.applyThemeColors();
+        },
+    
+        applyThemeColors() {
+            // Set layout variables
             document.documentElement.style.setProperty('--fab-button-size', this.theme.buttonSize);
             document.documentElement.style.setProperty('--fab-menu-item-size', this.theme.menuItemSize);
             document.documentElement.style.setProperty('--fab-menu-width', this.theme.menuWidth);
             document.documentElement.style.setProperty('--fab-menu-spacing', this.theme.menuSpacing);
             document.documentElement.style.setProperty('--fab-animation-speed', this.theme.animationSpeed);
             document.documentElement.style.setProperty('--fab-animation-easing', this.theme.animationEasing);
+    
+            // Set color variables
+            document.documentElement.style.setProperty('--fab-button-bg', this.theme.colors.buttonBg);
+            document.documentElement.style.setProperty('--fab-button-bg-hover', this.theme.colors.buttonBgHover);
+            document.documentElement.style.setProperty('--fab-button-bg-active', this.theme.colors.buttonBgActive);
+            document.documentElement.style.setProperty('--fab-button-text', this.theme.colors.buttonText);
+            document.documentElement.style.setProperty('--fab-menu-bg', this.theme.colors.menuBg);
+            document.documentElement.style.setProperty('--fab-menu-text', this.theme.colors.menuText);
+            document.documentElement.style.setProperty('--fab-menu-hover', this.theme.colors.menuHover);
+            document.documentElement.style.setProperty('--fab-menu-item-accent', this.theme.colors.menuItemAccent);
+            document.documentElement.style.setProperty('--fab-tooltip-bg', this.theme.colors.tooltipBg);
+            document.documentElement.style.setProperty('--fab-tooltip-text', this.theme.colors.tooltipText);
+    
+            // Update dark mode variables if a dark class is present
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.style.setProperty('--fab-menu-bg', this.theme.colors.menuBgDark);
+                document.documentElement.style.setProperty('--fab-menu-text', this.theme.colors.menuTextDark);
+                document.documentElement.style.setProperty('--fab-menu-hover', this.theme.colors.menuHoverDark);
+                document.documentElement.style.setProperty('--fab-menu-item-accent', this.theme.colors.menuItemAccentDark);
+                document.documentElement.style.setProperty('--fab-tooltip-bg', this.theme.colors.tooltipBgDark);
+            }
+    
+            // Listen for dark mode changes
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.attributeName === 'class') {
+                        const isDark = document.documentElement.classList.contains('dark');
+                        if (isDark) {
+                            document.documentElement.style.setProperty('--fab-menu-bg', this.theme.colors.menuBgDark);
+                            document.documentElement.style.setProperty('--fab-menu-text', this.theme.colors.menuTextDark);
+                            document.documentElement.style.setProperty('--fab-menu-hover', this.theme.colors.menuHoverDark);
+                            document.documentElement.style.setProperty('--fab-menu-item-accent', this.theme.colors.menuItemAccentDark);
+                            document.documentElement.style.setProperty('--fab-tooltip-bg', this.theme.colors.tooltipBgDark);
+                        } else {
+                            document.documentElement.style.setProperty('--fab-menu-bg', this.theme.colors.menuBg);
+                            document.documentElement.style.setProperty('--fab-menu-text', this.theme.colors.menuText);
+                            document.documentElement.style.setProperty('--fab-menu-hover', this.theme.colors.menuHover);
+                            document.documentElement.style.setProperty('--fab-menu-item-accent', this.theme.colors.menuItemAccent);
+                            document.documentElement.style.setProperty('--fab-tooltip-bg', this.theme.colors.tooltipBg);
+                        }
+                    }
+                });
+            });
+            observer.observe(document.documentElement, { attributes: true });
         },
     
         getDefaultPositionCoordinates(position) {

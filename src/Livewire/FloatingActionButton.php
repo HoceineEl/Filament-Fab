@@ -19,18 +19,47 @@ class FloatingActionButton extends Component implements HasForms, HasActions
 
     public function render()
     {
+        $themeConfig = Config::get('filament-fab.theme', []);
+
+        // Default theme settings
+        $defaultTheme = [
+            'button_size' => '60px',
+            'menu_item_size' => '40px',
+            'menu_width' => '320px',
+            'menu_spacing' => '16px',
+            'animation_speed' => '0.3s',
+            'animation_easing' => 'cubic-bezier(0.4, 0, 0.2, 1)',
+        ];
+
+        // Default color settings
+        $defaultColors = [
+            'button_bg' => '#3b82f6',
+            'button_bg_hover' => '#2563eb',
+            'button_bg_active' => '#1d4ed8',
+            'button_text' => '#ffffff',
+            'menu_bg' => '#ffffff',
+            'menu_bg_dark' => '#1f2937',
+            'menu_text' => '#4b5563',
+            'menu_text_dark' => '#e5e7eb',
+            'menu_hover' => '#f3f4f6',
+            'menu_hover_dark' => '#374151',
+            'menu_item_accent' => '#3b82f6',
+            'menu_item_accent_dark' => '#60a5fa',
+            'tooltip_bg' => '#111827',
+            'tooltip_bg_dark' => '#374151',
+            'tooltip_text' => '#ffffff',
+        ];
+
+        // Merge user settings with defaults
+        $theme = array_merge($defaultTheme, $themeConfig);
+        $colors = array_merge($defaultColors, $themeConfig['colors'] ?? []);
+        $theme['colors'] = $colors;
+
         return view('filament-fab::components.floating-action-button', [
             'actions' => $this->getActions(),
             'position' => Config::get('filament-fab.default_position', 'bottom-right'),
             'rememberPosition' => Config::get('filament-fab.remember_position', true),
-            'theme' => Config::get('filament-fab.theme', [
-                'button_size' => '60px',
-                'menu_item_size' => '40px',
-                'menu_width' => '320px',
-                'menu_spacing' => '16px',
-                'animation_speed' => '0.3s',
-                'animation_easing' => 'cubic-bezier(0.4, 0, 0.2, 1)',
-            ]),
+            'theme' => $theme,
         ]);
     }
 
