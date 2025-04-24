@@ -40,8 +40,7 @@ const defaultOptions = {
       setup: function (build) {
         build.onStart(() => {
           console.log(
-            `Build started at ${new Date(Date.now()).toLocaleTimeString()}: ${
-              build.initialOptions.outfile
+            `Build started at ${new Date(Date.now()).toLocaleTimeString()}: ${build.initialOptions.outfile
             }`
           );
         });
@@ -49,8 +48,7 @@ const defaultOptions = {
         build.onEnd((result) => {
           if (result.errors.length > 0) {
             console.log(
-              `Build failed at ${new Date(Date.now()).toLocaleTimeString()}: ${
-                build.initialOptions.outfile
+              `Build failed at ${new Date(Date.now()).toLocaleTimeString()}: ${build.initialOptions.outfile
               }`,
               result.errors
             );
@@ -67,26 +65,9 @@ const defaultOptions = {
   ],
 };
 
+// Build filament-fab.js
 compile({
   ...defaultOptions,
-  entryPoints: [`./resources/js/index.js`],
-  outfile: `./dist/modalStore.js`,
-});
-
-compile({
-  ...defaultOptions,
-  entryPoints: [`./resources/js/observer.js`],
-  outfile: `./dist/observer.js`,
-});
-
-compile({
-  ...defaultOptions,
-  entryPoints: [`./resources/js/swappable.js`],
-  outfile: `./dist/swappable.js`,
-});
-
-compile({
-  ...defaultOptions,
-  entryPoints: [`./resources/js/search.js`],
-  outfile: `./dist/search.js`,
+  entryPoints: [`./resources/js/filament-fab.js`],
+  outfile: `./dist/js/filament-fab.js`,
 });
