@@ -31,6 +31,7 @@
                 tooltipText: '{{ $theme['colors']['tooltip_text'] }}',
             }
         },
+        menuDisplay: '{{ $menuDisplay }}',
     
         init() {
             // Set default config
@@ -64,6 +65,33 @@
     
             // Apply theme CSS variables
             this.applyThemeColors();
+    
+            // Initialize the radial menu if selected
+            if (this.menuDisplay === 'radial') {
+                this.initRadialMenu();
+            }
+        },
+    
+        initRadialMenu() {
+            this.$nextTick(() => {
+                const items = this.$el.querySelectorAll('.menu-item');
+                const itemCount = items.length;
+                const radius = Math.max(80, itemCount * 15); // Adjust radius based on item count
+    
+                // Distribute items in a semi-circle above the button
+                items.forEach((item, index) => {
+                    // Calculate angle (in radians) for this item
+                    // Start from bottom-center (Math.PI/2) to ensure items are above the button
+                    // Distribute items evenly in a 180-degree arc
+                    const angleRange = Math.min(Math.PI, itemCount <= 3 ? Math.PI * 0.75 : Math.PI);
+                    const startAngle = Math.PI / 2 - (angleRange / 2);
+                    const angle = startAngle + (index * (angleRange / (itemCount - 1 || 1)));
+    
+                    // Set item position using CSS transform
+                    // First translate to center, then rotate to angle, move radius distance, rotate back
+                    item.style.transform = `translate(-50%, 50%) rotate(${angle}rad) translateY(-${radius}px) rotate(-${angle}rad)`;
+                });
+            });
         },
     
         applyThemeColors() {
@@ -144,9 +172,15 @@
             // Reset animation order when menu opens
             if (this.open) {
                 this.$nextTick(() => {
+                    // Update animation order for items
                     this.$el.querySelectorAll('.menu-item').forEach((item, index) => {
                         item.style.setProperty('--animation-order', index);
                     });
+    
+                    // Reinitialize radial menu if needed
+                    if (this.menuDisplay === 'radial') {
+                        this.initRadialMenu();
+                    }
                 });
             }
         },
@@ -201,7 +235,7 @@
             :style="{ position: 'fixed', top: `${position.top}px`, left: `${position.left}px` }"
             @mousedown.prevent="startDragging">
             <div class="floating-menu" :class="{ 'active': open }"
-                :style="{ width: open ? theme.menuWidth : theme.buttonSize }">
+                :style="{ width: open && menuDisplay === 'horizontal' ? theme.menuWidth : theme.buttonSize }">
                 <!-- Main Button -->
                 <button class="floating-button group" @click="toggleMenu" :class="{ 'active': open }"
                     :style="{ width: theme.buttonSize, height: theme.buttonSize }">
@@ -212,8 +246,19 @@
                 </button>
 
                 <!-- Menu Items -->
-                <div x-show="open" class="menu-items" :class="{ 'active': open }"
-                    :style="{ height: theme.buttonSize, gap: theme.menuSpacing }">
+                <div x-show="open" x-cloak class="menu-items"
+                    :class="{
+                        'active': open,
+                        'flex-row': menuDisplay === 'horizontal',
+                        'flex-col': menuDisplay === 'vertical',
+                        'fab-radial': menuDisplay === 'radial'
+                    }"
+                    :style="{
+                        height: menuDisplay === 'horizontal' ? theme.buttonSize : 'auto',
+                        gap: theme.menuSpacing,
+                        width: menuDisplay === 'vertical' ? theme.menuItemSize : (menuDisplay === 'horizontal' ?
+                            'auto' : '0')
+                    }">
                     @foreach ($actions as $action)
                         <div class="menu-item" :style="{ width: theme.menuItemSize, height: theme.menuItemSize }">
                             {{ $action }}
@@ -225,3 +270,13 @@
         <x-filament-actions::modals />
     </div>
 </div>
+
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('floatingActionButton', (config = {}) => ({
+            // ... existing Alpine data ...
+            menuDisplay: @js($menuDisplay),
+            // ... rest of Alpine data ...
+        }));
+    });
+</script>

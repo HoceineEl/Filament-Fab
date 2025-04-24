@@ -61,6 +61,7 @@ class FloatingActionButton extends Component implements HasForms, HasActions
             'rememberPosition' => Config::get('filament-fab.remember_position', true),
             'theme' => $theme,
             'showTooltip' => Config::get('filament-fab.show_tooltip', true),
+            'menuDisplay' => Config::get('filament-fab.menu_display', 'horizontal'),
         ]);
     }
 
