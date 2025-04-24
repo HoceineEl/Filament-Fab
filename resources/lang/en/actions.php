@@ -15,4 +15,5 @@ return [
     'view_item' => 'View Item Details',
     'import_file' => 'Import File',
     'export_format' => 'Export Format',
-]; 
+    'quick_actions' => 'Quick Actions',
+];

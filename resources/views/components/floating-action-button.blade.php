@@ -6,6 +6,14 @@
         dragging: false,
         position: { top: 100, left: 100 },
         offset: { x: 0, y: 0 },
+        theme: {
+            buttonSize: '{{ $theme['button_size'] }}',
+            menuItemSize: '{{ $theme['menu_item_size'] }}',
+            menuWidth: '{{ $theme['menu_width'] }}',
+            menuSpacing: '{{ $theme['menu_spacing'] }}',
+            animationSpeed: '{{ $theme['animation_speed'] }}',
+            animationEasing: '{{ $theme['animation_easing'] }}',
+        },
     
         init() {
             // Set default config
@@ -29,6 +37,21 @@
             // Add global mouse event listeners
             window.addEventListener('mousemove', (e) => this.onDrag(e));
             window.addEventListener('mouseup', () => this.stopDragging());
+    
+            // Set animation order for menu items
+            this.$nextTick(() => {
+                this.$el.querySelectorAll('.menu-item').forEach((item, index) => {
+                    item.style.setProperty('--animation-order', index);
+                });
+            });
+    
+            // Apply theme CSS variables
+            document.documentElement.style.setProperty('--fab-button-size', this.theme.buttonSize);
+            document.documentElement.style.setProperty('--fab-menu-item-size', this.theme.menuItemSize);
+            document.documentElement.style.setProperty('--fab-menu-width', this.theme.menuWidth);
+            document.documentElement.style.setProperty('--fab-menu-spacing', this.theme.menuSpacing);
+            document.documentElement.style.setProperty('--fab-animation-speed', this.theme.animationSpeed);
+            document.documentElement.style.setProperty('--fab-animation-easing', this.theme.animationEasing);
         },
     
         getDefaultPositionCoordinates(position) {
@@ -51,6 +74,15 @@
     
         toggleMenu() {
             this.open = !this.open;
+    
+            // Reset animation order when menu opens
+            if (this.open) {
+                this.$nextTick(() => {
+                    this.$el.querySelectorAll('.menu-item').forEach((item, index) => {
+                        item.style.setProperty('--animation-order', index);
+                    });
+                });
+            }
         },
     
         startDragging(e) {
@@ -102,16 +134,20 @@
         <div class="floating-container" x-ref="container"
             :style="{ position: 'fixed', top: `${position.top}px`, left: `${position.left}px` }"
             @mousedown.prevent="startDragging">
-            <div class="floating-menu" :class="{ 'active': open }">
+            <div class="floating-menu" :class="{ 'active': open }"
+                :style="{ width: open ? theme.menuWidth : theme.buttonSize }">
                 <!-- Main Button -->
-                <button class="floating-button" @click="toggleMenu" :class="{ 'active': open }">
+                <button class="floating-button group" @click="toggleMenu" :class="{ 'active': open }"
+                    :style="{ width: theme.buttonSize, height: theme.buttonSize }">
                     <x-filament::icon icon="heroicon-o-plus" class="icon" />
+                    <span class="fab-tooltip">{{ __('filament-fab::actions.quick_actions') }}</span>
                 </button>
 
                 <!-- Menu Items -->
-                <div x-show="open" class="menu-items" :class="{ 'active': open }">
+                <div x-show="open" class="menu-items" :class="{ 'active': open }"
+                    :style="{ height: theme.buttonSize, gap: theme.menuSpacing }">
                     @foreach ($actions as $action)
-                        <div class="menu-item">
+                        <div class="menu-item" :style="{ width: theme.menuItemSize, height: theme.menuItemSize }">
                             {{ $action }}
                         </div>
                     @endforeach

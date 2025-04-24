@@ -573,13 +573,20 @@ video {
 .filter {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
+:root {
+    --fab-button-size: 60px;
+    --fab-menu-item-size: 40px;
+    --fab-menu-width: 320px;
+    --fab-menu-spacing: 16px;
+    --fab-animation-speed: 0.3s;
+    --fab-animation-easing: cubic-bezier(0.4, 0, 0.2, 1);
+}
 /* FAB animations */
 @keyframes fab-scale-in {
     0% {
         opacity: 0;
         transform: scale(0.95);
     }
-
     100% {
         opacity: 1;
         transform: scale(1);
@@ -590,24 +597,40 @@ video {
         opacity: 1;
         transform: scale(1);
     }
-
     100% {
         opacity: 0;
         transform: scale(0.95);
     }
 }
+@keyframes fab-rotate-in {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(45deg);
+    }
+}
+@keyframes fab-rotate-out {
+    0% {
+        transform: rotate(45deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
 /* FAB transitions */
 .fab-enter-active {
-    animation: fab-scale-in 0.2s ease-out;
+    animation: fab-scale-in var(--fab-animation-speed) var(--fab-animation-easing);
 }
 .fab-leave-active {
-    animation: fab-scale-out 0.15s ease-in;
+    animation: fab-scale-out var(--fab-animation-speed) var(--fab-animation-easing);
 }
-/* Add to your existing FAB styles */
+/* Button styles */
 .fab-button {
   transition-property: all;
-  transition-duration: 200ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
 }
 .fab-button:hover {
   --tw-scale-x: 1.1;
@@ -626,8 +649,9 @@ video {
 }
 .fab-action-button {
   transition-property: all;
-  transition-duration: 200ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
 }
 .fab-action-button:hover {
   --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
@@ -676,11 +700,14 @@ video {
   transition-property: opacity;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 200ms;
+  --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 .group:hover .fab-tooltip {
   opacity: 1;
 }
-/* Add these styles to your theme.css */
+/* Floating container and menu */
 @keyframes come-in {
     0% {
         transform: translatey(100px);
@@ -699,57 +726,49 @@ video {
 }
 .floating-container {
   position: fixed;
-  bottom: 2.5rem;
-  left: 50%;
-  height: 70px;
-  width: 320px;
-  --tw-translate-x: -50%;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  z-index: 50;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
 }
 .floating-menu {
   position: absolute;
   bottom: 0px;
   right: 50%;
-  width: 57px;
   --tw-translate-x: 50%;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  border-radius: 9999px;
+  --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 300ms;
-  border-radius: 9999px;
-  background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
-  --tw-gradient-from: rgb(var(--primary-500) / 1) var(--tw-gradient-from-position);
-  --tw-gradient-to: rgb(var(--primary-500) / 0) var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-  --tw-gradient-to: rgb(var(--primary-600) / 1) var(--tw-gradient-to-position);
-  --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-  --tw-shadow-color: rgb(var(--primary-500) / 0.3);
-  --tw-shadow: var(--tw-shadow-colored);
-}
-.floating-menu.active {
-  width: 320px;
+  transition-duration: 150ms;
+    transition-duration: var(--fab-animation-speed);
+    transition-timing-function: var(--fab-animation-easing);
 }
 .floating-button {
   position: absolute;
   bottom: 0px;
   right: 50%;
-  height: 57px;
-  width: 57px;
-  --tw-translate-x: 50%;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
   z-index: 10;
   display: flex;
+  --tw-translate-x: 50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
   cursor: pointer;
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
-  background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
-  --tw-gradient-from: rgb(var(--primary-500) / 1) var(--tw-gradient-from-position);
-  --tw-gradient-to: rgb(var(--primary-500) / 0) var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-  --tw-gradient-to: rgb(var(--primary-600) / 1) var(--tw-gradient-to-position);
+  --tw-bg-opacity: 1;
+  background-color: rgb(var(--primary-600) / var(--tw-bg-opacity));
+}
+.floating-button:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(var(--primary-500) / var(--tw-bg-opacity));
+}
+.floating-button:active {
+  --tw-bg-opacity: 1;
+  background-color: rgb(var(--primary-700) / var(--tw-bg-opacity));
+}
+.floating-button {
   --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
@@ -761,9 +780,10 @@ video {
   --tw-shadow: var(--tw-shadow-colored);
 }
 .floating-button {
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 300ms;
+    transition: all var(--fab-animation-speed) var(--fab-animation-easing);
+}
+.floating-button:hover {
+    transform: scale(1.05);
 }
 .floating-button .icon {
   height: 1.5rem;
@@ -772,38 +792,56 @@ video {
   color: rgb(255 255 255 / var(--tw-text-opacity));
   transition-property: transform;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 300ms;
+  transition-duration: 150ms;
+    transition-duration: var(--fab-animation-speed);
 }
 .floating-button.active .icon {
-  --tw-rotate: 45deg;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    animation: fab-rotate-in var(--fab-animation-speed) forwards;
+}
+.floating-menu:not(.active) .floating-button .icon {
+    animation: fab-rotate-out var(--fab-animation-speed) forwards;
 }
 .menu-items {
   position: absolute;
   bottom: 0px;
   right: 50%;
-  height: 57px;
-  width: 100%;
   --tw-translate-x: 50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
   border-radius: 9999px;
-  background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
-  --tw-gradient-from: rgb(var(--primary-500) / 1) var(--tw-gradient-from-position);
-  --tw-gradient-to: rgb(var(--primary-500) / 0) var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-  --tw-gradient-to: rgb(var(--primary-600) / 1) var(--tw-gradient-to-position);
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+.menu-items:where(.dark, .dark *) {
+  --tw-bg-opacity: 1;
+  background-color: rgb(31 41 55 / var(--tw-bg-opacity));
+}
+.menu-items {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1.5rem;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
   visibility: hidden;
   opacity: 0;
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 300ms;
+  transition-duration: 150ms;
   --tw-translate-y: -120%;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  border-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: rgb(243 244 246 / var(--tw-border-opacity));
+}
+.menu-items:where(.dark, .dark *) {
+  --tw-border-opacity: 1;
+  border-color: rgb(55 65 81 / var(--tw-border-opacity));
+}
+.menu-items {
+    transition-duration: var(--fab-animation-speed);
+    transition-timing-function: var(--fab-animation-easing);
 }
 .floating-menu.active .menu-items {
   visibility: visible;
@@ -812,37 +850,56 @@ video {
 }
 .menu-item {
   display: flex;
-  height: 2.5rem;
-  width: 2.5rem;
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 300ms;
+  transition-duration: 150ms;
 }
 .menu-item:hover {
   --tw-scale-x: 1.1;
   --tw-scale-y: 1.1;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  --tw-bg-opacity: 1;
+  background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+}
+.menu-item:hover:where(.dark, .dark *) {
+  --tw-bg-opacity: 1;
+  background-color: rgb(55 65 81 / var(--tw-bg-opacity));
+}
+.menu-item {
+  --tw-text-opacity: 1;
+  color: rgb(75 85 99 / var(--tw-text-opacity));
+}
+.menu-item:where(.dark, .dark *) {
+  --tw-text-opacity: 1;
+  color: rgb(209 213 219 / var(--tw-text-opacity));
+}
+.menu-item {
+    transition-duration: calc(var(--fab-animation-speed) * 0.66);
 }
 .menu-item svg {
   height: 1.25rem;
   width: 1.25rem;
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
-  opacity: 0.75;
   transition-property: opacity;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 300ms;
+  transition-duration: 150ms;
+    transition-duration: calc(var(--fab-animation-speed) * 0.5);
 }
 .menu-item:hover svg {
-  opacity: 1;
+  --tw-text-opacity: 1;
+  color: rgb(var(--primary-600) / var(--tw-text-opacity));
+}
+.menu-item:hover svg:where(.dark, .dark *) {
+  --tw-text-opacity: 1;
+  color: rgb(var(--primary-400) / var(--tw-text-opacity));
 }
 @keyframes menuItemFadeIn {
     0% { opacity: 0; transform: translateY(10px); }
     100% { opacity: 1; transform: translateY(0); }
 }
 .floating-menu.active .menu-item {
-    animation: menuItemFadeIn 0.3s forwards;
+    animation: menuItemFadeIn var(--fab-animation-speed) forwards;
+    animation-delay: calc(var(--animation-order, 0) * 0.05s);
 }

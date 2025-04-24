@@ -15,6 +15,11 @@ document.addEventListener('DOMContentLoaded', function () {
             }));
         });
     });
+
+    // Set animation order for menu items
+    document.querySelectorAll('.menu-item').forEach((item, index) => {
+        item.style.setProperty('--animation-order', index);
+    });
 });
 
 // Setup Alpine.js component if available
@@ -54,6 +59,15 @@ if (window.Alpine) {
             // Add global mouse event listeners
             window.addEventListener('mousemove', (e) => this.onDrag(e));
             window.addEventListener('mouseup', () => this.stopDragging());
+
+            // Set animation order for menu items
+            this.$nextTick(() => {
+                if (this.$el) {
+                    this.$el.querySelectorAll('.menu-item').forEach((item, index) => {
+                        item.style.setProperty('--animation-order', index);
+                    });
+                }
+            });
         },
 
         getDefaultPositionCoordinates(position) {
@@ -77,6 +91,15 @@ if (window.Alpine) {
 
         toggleMenu() {
             this.open = !this.open;
+
+            // Reset animation order when menu opens
+            if (this.open) {
+                this.$nextTick(() => {
+                    this.$el.querySelectorAll('.menu-item').forEach((item, index) => {
+                        item.style.setProperty('--animation-order', index);
+                    });
+                });
+            }
         },
 
         startDragging(e) {

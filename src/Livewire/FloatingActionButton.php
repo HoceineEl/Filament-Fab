@@ -23,6 +23,14 @@ class FloatingActionButton extends Component implements HasForms, HasActions
             'actions' => $this->getActions(),
             'position' => Config::get('filament-fab.default_position', 'bottom-right'),
             'rememberPosition' => Config::get('filament-fab.remember_position', true),
+            'theme' => Config::get('filament-fab.theme', [
+                'button_size' => '60px',
+                'menu_item_size' => '40px',
+                'menu_width' => '320px',
+                'menu_spacing' => '16px',
+                'animation_speed' => '0.3s',
+                'animation_easing' => 'cubic-bezier(0.4, 0, 0.2, 1)',
+            ]),
         ]);
     }
 

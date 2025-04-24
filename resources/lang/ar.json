@@ -7,5 +7,6 @@
   "favorite this item": "أضف هذا العنصر إلى المفضلة",
   "delete": "حذف",
   "recent": "الأحدث",
-  "favorites": "المفضلات"
+  "favorites": "المفضلات",
+  "filament-fab::actions.quick_actions": "إجراءات سريعة"
 }
