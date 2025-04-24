@@ -60,6 +60,12 @@ class FilamentFabServiceProvider extends PackageServiceProvider
             name: 'floating-action-button',
             class: FloatingActionButton::class
         );
+
+        // Publish assets
+        $this->publishes([
+            __DIR__ . '/../resources/dist/filament-fab.css' => public_path('vendor/filament-fab/filament-fab.css'),
+            __DIR__ . '/../dist/js/filament-fab.js' => public_path('vendor/filament-fab/filament-fab.js'),
+        ], 'filament-fab-assets');
     }
 
     public function packageRegistered(): void {}
