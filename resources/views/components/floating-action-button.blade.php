@@ -76,20 +76,40 @@
             this.$nextTick(() => {
                 const items = this.$el.querySelectorAll('.menu-item');
                 const itemCount = items.length;
-                const radius = Math.max(80, itemCount * 15); // Adjust radius based on item count
     
-                // Distribute items in a semi-circle above the button
+                // Calculate radius based on button size and number of items
+                const buttonSize = parseInt(this.theme.buttonSize);
+                const radius = Math.max(buttonSize * 1.2, Math.min(120, itemCount * 25));
+    
+                // For radial menu, distribute items in a circle pattern
                 items.forEach((item, index) => {
-                    // Calculate angle (in radians) for this item
-                    // Start from bottom-center (Math.PI/2) to ensure items are above the button
-                    // Distribute items evenly in a 180-degree arc
-                    const angleRange = Math.min(Math.PI, itemCount <= 3 ? Math.PI * 0.75 : Math.PI);
-                    const startAngle = Math.PI / 2 - (angleRange / 2);
-                    const angle = startAngle + (index * (angleRange / (itemCount - 1 || 1)));
+                    // For 1-2 items, just position them above
+                    if (itemCount <= 2) {
+                        const angle = Math.PI / 2; // 90 degrees (top)
+                        const offsetAngle = index === 0 ? -0.3 : 0.3; // Slight offset for 2 items
+                        const finalAngle = angle + (itemCount === 2 ? offsetAngle : 0);
+                        const x = Math.cos(finalAngle) * radius;
+                        const y = Math.sin(finalAngle) * radius;
     
-                    // Set item position using CSS transform
-                    // First translate to center, then rotate to angle, move radius distance, rotate back
-                    item.style.transform = `translate(-50%, 50%) rotate(${angle}rad) translateY(-${radius}px) rotate(-${angle}rad)`;
+                        // Position from center
+                        item.style.transform = `translate(calc(-50% + ${x}px), calc(-50% - ${y}px))`;
+                    } else {
+                        // For 3+ items, create a 3/4 circle arc starting from top-right, moving clockwise
+                        const arcAngle = Math.PI * 1.5; // 270 degrees arc (3/4 of a circle)
+                        const startAngle = Math.PI / 4; // Start at 45 degrees (top-right)
+                        const segmentAngle = arcAngle / (itemCount - 1 || 1);
+                        const angle = startAngle + (index * segmentAngle);
+    
+                        // Calculate position
+                        const x = Math.cos(angle) * radius;
+                        const y = Math.sin(angle) * radius;
+    
+                        // Position from center with springy animation effect
+                        item.style.transform = `translate(calc(-50% + ${x}px), calc(-50% - ${y}px))`;
+    
+                        // Set animation delay for staggered appearance
+                        item.style.animationDelay = `${index * 0.05 + 0.1}s`;
+                    }
                 });
             });
         },

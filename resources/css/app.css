@@ -77,6 +77,31 @@
     }
 }
 
+@keyframes fab-slide-up {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fab-pop-in {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
 /* FAB transitions */
 .fab-enter-active {
     animation: fab-scale-in var(--fab-animation-speed) var(--fab-animation-easing);
@@ -199,20 +224,32 @@
 /* Menu items - Vertical layout */
 .menu-items.flex-col {
     @apply bottom-[105%] right-1/2 translate-x-1/2;
-    @apply py-4;
-    @apply transform translate-y-[0%];
+    @apply py-3 px-0;
     flex-direction: column;
-    max-height: calc(90vh - 120px); /* Prevent overflow */
+    width: calc(var(--fab-menu-item-size) + 16px) !important;
+    max-height: min(calc(100vh - 180px), 400px);
     overflow-y: auto;
+    border-radius: 24px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+.menu-items.flex-col .menu-item {
+    margin: 4px 0;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.menu-items.flex-col .menu-item:hover {
+    transform: translateX(3px);
 }
 
 /* Menu items - Radial layout */
 .menu-items.fab-radial {
-    @apply bottom-0 right-1/2 translate-x-1/2;
+    @apply bottom-1/2 right-1/2 translate-x-1/2 translate-y-1/2;
     @apply bg-transparent shadow-none border-0;
-    height: 0 !important;
-    width: 0 !important;
+    height: 240px !important;
+    width: 240px !important;
     transform: none;
+    background: transparent;
     pointer-events: none;
 }
 
@@ -243,27 +280,42 @@
     100% { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes menuItemSlideIn {
+    0% { opacity: 0; transform: translateX(-5px); }
+    100% { opacity: 1; transform: translateX(0); }
+}
+
 /* Radial specific styles */
 .fab-radial .menu-item {
-    @apply shadow-md bg-white dark:bg-gray-800;
+    @apply shadow-md;
     position: absolute;
-    left: 50%;
-    bottom: 50%;
-    transform: translate(-50%, 50%);
+    transform-origin: center center;
     margin: 0 !important;
     opacity: 0;
     pointer-events: auto;
-    transition: transform var(--fab-animation-speed) var(--fab-animation-easing),
-                opacity var(--fab-animation-speed) var(--fab-animation-easing);
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                opacity 0.3s ease;
+    background-color: var(--fab-menu-bg);
+    transform: scale(0.3);
 }
 
 .fab-radial.active .menu-item {
     opacity: 1;
-    animation: none; /* Override the default animation */
+    transform: scale(1);
 }
 
-/* Animation for horizontal and vertical layouts */
-.menu-items:not(.fab-radial).active .menu-item {
+/* Animation for each layout type */
+.menu-items.flex-row.active .menu-item {
     animation: menuItemFadeIn var(--fab-animation-speed) forwards;
     animation-delay: calc(var(--animation-order, 0) * 0.05s);
+}
+
+.menu-items.flex-col.active .menu-item {
+    animation: menuItemSlideIn var(--fab-animation-speed) forwards;
+    animation-delay: calc(var(--animation-order, 0) * 0.05s);
+}
+
+.menu-items.fab-radial.active .menu-item {
+    animation: fab-pop-in 0.4s forwards;
+    animation-delay: calc(var(--animation-order, 0) * 0.05s + 0.1s);
 }
